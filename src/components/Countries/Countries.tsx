@@ -34,33 +34,33 @@ const Countries = () => {
   useEffect(() => {
     if (!countries) return;
 
-    const results = countries.filter((country) =>
-      country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+    const lowercaseSearchTerm = searchTerm.toLowerCase();
+    const regionFilters = selectedFilters
+      .filter((f) => typeof f.filter === "string")
+      .map((f) => f.filter);
+    const populationFilters = selectedFilters.filter(
+      (f) => typeof f.filter === "object"
     );
 
-    const filtered = results.filter((country) => {
-      const regionFilters = selectedFilters
-        .filter((f) => typeof f.filter === "string")
-        .map((f) => f.filter);
-      const populationFilters = selectedFilters.filter(
-        (f) => typeof f.filter === "object"
-      );
+    const filtered = countries.filter((country) => {
+      if (!country.name.common.toLowerCase().includes(lowercaseSearchTerm))
+        return false;
 
-      const matchesRegion =
-        regionFilters.length === 0 || regionFilters.includes(country.region);
+      if (regionFilters.length && !regionFilters.includes(country.region))
+        return false;
 
-      const matchesPopulation =
-        populationFilters.length === 0 ||
-        populationFilters.some((f) => {
-          if (typeof f.filter !== "object") return;
+      if (populationFilters.length) {
+        return populationFilters.some((f) => {
+          if (typeof f.filter !== "object") return false;
           const { min = 0, max } = f.filter;
           return (
             country.population >= min &&
             (max === undefined || country.population <= max)
           );
         });
+      }
 
-      return matchesRegion && matchesPopulation;
+      return true;
     });
 
     setFilteredCountries(filtered);
@@ -86,7 +86,7 @@ const Countries = () => {
       </div>
       {showFilters && (
         <div className="mb-4">
-          <div className="mb-2 flex gap-4">
+          <div className="mb-4 flex gap-4">
             <FilterItem
               name="region"
               filterOptions={regionFilterOptions}
@@ -101,7 +101,7 @@ const Countries = () => {
             />
           </div>
           {selectedFilters.length > 0 && (
-            <div className="flex items-center gap-2">
+            <div className="w-full flex-wrap flex items-center gap-2">
               {selectedFilters.map((filter, index) => (
                 <Badge key={index} variant="secondary">
                   {filter.name}
@@ -117,13 +117,12 @@ const Countries = () => {
                   </button>
                 </Badge>
               ))}
-              <Button
-                className="cursor-pointer px-2 py-1 border rounded-lg h-[30px]"
+              <Badge
+                className="cursor-pointer bg-popover-foreground"
                 onClick={() => setSelectedFilters([])}
-                variant="outline"
               >
-                <p className="text-sm">Clear filters</p>
-              </Button>
+                Clear filters
+              </Badge>
             </div>
           )}
         </div>

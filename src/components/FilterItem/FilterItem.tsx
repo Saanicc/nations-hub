@@ -35,7 +35,7 @@ const FilterItem = ({
 
   return (
     <DropdownMenu onOpenChange={setOpen}>
-      <DropdownMenuTrigger className="px-2 py-1 border rounded-lg">
+      <DropdownMenuTrigger className="px-2 py-1 border rounded-lg cursor-pointer">
         <div className="flex items-center gap-1">
           <p className="text-sm">Filter by {name}</p>
           {open && <ChevronUp size={16} />}
