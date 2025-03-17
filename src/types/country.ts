@@ -15,6 +15,7 @@ export interface Country {
   cca2: string;
   ccn3: string;
   cca3: string;
+  cioc?: string;
   independent: boolean;
   status: string;
   unMember: boolean;
@@ -31,6 +32,7 @@ export interface Country {
   capital: string[];
   altSpellings: string[];
   region: string;
+  subregion?: string;
   languages: {
     [key: string]: string;
   };
@@ -44,7 +46,7 @@ export interface Country {
   landlocked: boolean;
   area: number;
   demonyms: {
-    eng: {
+    [key: string]: {
       f: string;
       m: string;
     };
@@ -55,6 +57,10 @@ export interface Country {
     openStreetMaps: string;
   };
   population: number;
+  gini?: {
+    [key: string]: number;
+  };
+  fifa?: string;
   car: {
     signs: string[];
     side: string;
@@ -66,9 +72,16 @@ export interface Country {
     svg: StaticImageData;
     alt?: string;
   };
-  coatOfArms: Record<string, unknown>;
+  coatOfArms: {
+    png?: string;
+    svg?: string;
+  };
   startOfWeek: string;
   capitalInfo: {
     latlng: number[];
+  };
+  postalCode?: {
+    format: string;
+    regex: string;
   };
 }
