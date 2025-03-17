@@ -4,14 +4,17 @@ import { Card, CardContent, CardFooter } from "./ui/card";
 import Image from "next/image";
 import { Country } from "@/types/country";
 import { Badge } from "./ui/badge";
+import { useRouter } from "next/navigation";
 
 const CountryCard = ({ country }: { country: Country }) => {
+  const router = useRouter();
+
   return (
     <Card
       key={country.name.common}
-      className="rounded-lg shadow-md bg-card p-4"
+      className="rounded-lg shadow-md bg-card p-2"
     >
-      <CardContent className="p-0 flex items-center justify-between mb-4">
+      <CardContent className="p-0 flex items-center justify-between">
         <div className="">
           <Badge className="py-0 px-[2px] rounded-sm bg-chart-2 text-primary-foreground">
             {country.region}
@@ -25,11 +28,16 @@ const CountryCard = ({ country }: { country: Country }) => {
           width={100}
           height={100}
           alt={country.flags.alt || `${country.name.common} flag`}
-          className="w-24 h-16 object-contain mb-4"
+          className="w-auto max-h-13 object-contain self-start"
         />
       </CardContent>
       <CardFooter className="p-0">
-        <Button className="bg-popover-foreground cursor-pointer">
+        <Button
+          className="bg-popover-foreground cursor-pointer"
+          onClick={() => {
+            router.push(`/countries/${country.ccn3}`);
+          }}
+        >
           View more
         </Button>
       </CardFooter>
