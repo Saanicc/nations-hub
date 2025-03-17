@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import CountryCard from "../CountryCard";
 import { Button } from "../ui/button";
-import { FilterIcon, X } from "lucide-react";
+import { FilterIcon, Slash, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import FilterItem from "../FilterItem/FilterItem";
 import { FilterOptions } from "../FilterItem/FilterItem.config";
@@ -14,6 +14,13 @@ import {
   populationFilterOptions,
   regionFilterOptions,
 } from "./Countries.config";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
 
 const Countries = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +32,7 @@ const Countries = () => {
     queryKey: ["countries"],
     queryFn: async () => {
       const res = await fetch(
-        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region"
+        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,ccn3"
       );
       return res.json();
     },
@@ -68,7 +75,20 @@ const Countries = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6">Countries</h1>
+      <Breadcrumb className="mt-14">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>
+            <Slash />
+          </BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/countries">Countries</BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <h1 className="text-3xl font-bold mb-6 mt-4">Countries</h1>
       <div className="w-full mb-4 flex gap-4">
         <Input
           type="text"
