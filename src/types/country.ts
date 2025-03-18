@@ -31,6 +31,7 @@ export interface Country {
   };
   capital: string[];
   altSpellings: string[];
+  borders?: string[];
   region: string;
   subregion?: string;
   languages: {
@@ -84,4 +85,9 @@ export interface Country {
     format: string;
     regex: string;
   };
+}
+
+export interface BorderingCountry {
+  name: Country["name"];
+  ccn3: Country["ccn3"];
 }

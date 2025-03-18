@@ -15,6 +15,7 @@ import {
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Country } from "@/types/country";
 import React from "react";
+import BorderingCountry from "./bordering-country/BorderingCountry";
 
 const Details = ({ country }: { country: Country }) => {
   return (
@@ -43,6 +44,19 @@ const Details = ({ country }: { country: Country }) => {
                 )}
               </TableBody>
             </Table>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="borders">
+          <AccordionTrigger>Bordering Countries</AccordionTrigger>
+          <AccordionContent>
+            {country.borders ? (
+              country.borders.map((countryCode) => (
+                <BorderingCountry key={countryCode} countryCode={countryCode} />
+              ))
+            ) : (
+              <p className="text-muted-foreground">No bordering countries</p>
+            )}
           </AccordionContent>
         </AccordionItem>
 
