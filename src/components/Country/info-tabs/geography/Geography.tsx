@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Country } from "@/types/country";
+import Link from "next/link";
 
 const Geography = ({ country }: { country: Country }) => {
   return (
@@ -10,10 +11,28 @@ const Geography = ({ country }: { country: Country }) => {
         </CardHeader>
         <CardContent>
           <p className="mb-2">
-            Latitude/Longitude: [{country.latlng.join(", ")}]
+            Lat/Lon:{" "}
+            <Link
+              className="text-blue-500"
+              href={`https://www.google.com/maps/place/${country.latlng.join(
+                ","
+              )}`}
+              target="_blank"
+            >
+              {country.latlng.join(", ")}
+            </Link>
           </p>
           <p className="mb-2">
-            Capital Location: [{country.capitalInfo.latlng.join(", ")}]
+            Capital location:{" "}
+            <Link
+              className="text-blue-500"
+              href={`https://www.google.com/maps/place/${country.capitalInfo.latlng.join(
+                ","
+              )}`}
+              target="_blank"
+            >
+              {country.capitalInfo.latlng.join(", ")}
+            </Link>
           </p>
           <p>Landlocked: {country.landlocked ? "Yes" : "No"}</p>
         </CardContent>

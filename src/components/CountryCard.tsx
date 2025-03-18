@@ -28,7 +28,7 @@ const CountryCard = ({ country }: { country: Country }) => {
           width={100}
           height={100}
           alt={country.flags.alt || `${country.name.common} flag`}
-          className="w-auto max-h-13 object-contain self-start"
+          className="w-auto max-h-13 object-contain self-start m-1 ml-4"
         />
       </CardContent>
       <CardFooter className="p-0">
