@@ -1,5 +1,42 @@
 import { StaticImageData } from "next/image";
 
+export type Region =
+  | "Africa"
+  | "Americas"
+  | "Asia"
+  | "Europe"
+  | "Oceania"
+  | "Antarctic";
+
+export type Subregion =
+  | "Caribbean"
+  | "Western Asia"
+  | "Western Africa"
+  | "Eastern Africa"
+  | "Northern Europe"
+  | "Southern Europe"
+  | "South America"
+  | "Western Europe"
+  | "South-Eastern Asia"
+  | "Southern Asia"
+  | "Northern Africa"
+  | "Southeast Europe"
+  | "Middle Africa"
+  | "Eastern Asia"
+  | "Central Europe"
+  | "Polynesia"
+  | "Central America"
+  | "Micronesia"
+  | "North America"
+  | "Southern Africa"
+  | "Australia and New Zealand"
+  | "Melanesia"
+  | "Central Asia"
+  | "Eastern Europe"
+  | "";
+
+export type PopulationRange = { min: number; max?: number };
+
 export interface Country {
   name: {
     common: string;
@@ -32,8 +69,8 @@ export interface Country {
   capital: string[];
   altSpellings: string[];
   borders?: string[];
-  region: string;
-  subregion?: string;
+  region: Region;
+  subregion?: Subregion;
   languages: {
     [key: string]: string;
   };

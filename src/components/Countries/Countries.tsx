@@ -9,10 +9,11 @@ import { Button } from "../ui/button";
 import { FilterIcon, Slash, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import FilterItem from "../FilterItem/FilterItem";
-import { FilterOptions } from "../FilterItem/FilterItem.config";
+import { FilterOptions, FilterType } from "../FilterItem/FilterItem.config";
 import {
   populationFilterOptions,
   regionFilterOptions,
+  subregionFilterOptions,
 } from "./Countries.config";
 import {
   Breadcrumb,
@@ -26,13 +27,15 @@ const Countries = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
-  const [selectedFilters, setSelectedFilters] = useState<FilterOptions[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<
+    FilterOptions<FilterType>[]
+  >([]);
 
   const { data: countries } = useQuery<Country[]>({
     queryKey: ["countries"],
     queryFn: async () => {
       const res = await fetch(
-        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,ccn3"
+        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,ccn3"
       );
       return res.json();
     },
@@ -43,10 +46,15 @@ const Countries = () => {
 
     const lowercaseSearchTerm = searchTerm.toLowerCase();
     const regionFilters = selectedFilters
-      .filter((f) => typeof f.filter === "string")
+      .filter((f) => f.type === "region")
       .map((f) => f.filter);
+
+    const subregionFilters = selectedFilters
+      .filter((f) => f.type === "subregion")
+      .map((f) => f.filter);
+
     const populationFilters = selectedFilters.filter(
-      (f) => typeof f.filter === "object"
+      (f) => f.type === "population"
     );
 
     const filtered = countries.filter((country) => {
@@ -54,6 +62,12 @@ const Countries = () => {
         return false;
 
       if (regionFilters.length && !regionFilters.includes(country.region))
+        return false;
+
+      if (
+        subregionFilters.length &&
+        !subregionFilters.includes(country.subregion)
+      )
         return false;
 
       if (populationFilters.length) {
@@ -110,6 +124,12 @@ const Countries = () => {
             <FilterItem
               name="region"
               filterOptions={regionFilterOptions}
+              selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
+            />
+            <FilterItem
+              name="subregion"
+              filterOptions={subregionFilterOptions}
               selectedFilters={selectedFilters}
               setSelectedFilters={setSelectedFilters}
             />
