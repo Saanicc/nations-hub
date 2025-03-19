@@ -11,19 +11,19 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 import { CheckSquare, ChevronDown, ChevronUp, Square } from "lucide-react";
 import { useCallback, useState } from "react";
 import { FilterItemProps } from "./FilterItem.config";
-import { Region, Subregion, PopulationRange } from "@/types/country";
 import { FilterOptions } from "./FilterItem.config";
+import { FilterTypeValues } from "./FilterItem.config";
 
 const FilterItem = ({
   name,
   filterOptions,
   selectedFilters,
   setSelectedFilters,
-}: FilterItemProps<Region | Subregion | PopulationRange>) => {
+}: FilterItemProps<FilterTypeValues>) => {
   const [open, setOpen] = useState(false);
 
   const handleFilterClick = useCallback(
-    (filter: FilterOptions<Region | Subregion | PopulationRange>) => {
+    (filter: FilterOptions<FilterTypeValues>) => {
       setSelectedFilters((prev) => {
         const filterExists = prev.some(
           (f) => f.displayName === filter.displayName
@@ -39,7 +39,7 @@ const FilterItem = ({
   );
 
   const isFilterSelected = useCallback(
-    (option: FilterOptions<Region | Subregion | PopulationRange>): boolean =>
+    (option: FilterOptions<FilterTypeValues>): boolean =>
       selectedFilters.some(
         (filter) => filter.displayName === option.displayName
       ),

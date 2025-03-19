@@ -35,6 +35,15 @@ export type Subregion =
   | "Eastern Europe"
   | "";
 
+export type Continent =
+  | "North America"
+  | "South America"
+  | "Europe"
+  | "Africa"
+  | "Asia"
+  | "Oceania"
+  | "Antarctica";
+
 export type PopulationRange = { min: number; max?: number };
 
 export interface Country {
@@ -104,7 +113,7 @@ export interface Country {
     side: string;
   };
   timezones: string[];
-  continents: string[];
+  continents?: string[];
   flags: {
     png: string;
     svg: StaticImageData;

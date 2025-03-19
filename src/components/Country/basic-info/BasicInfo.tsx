@@ -1,6 +1,6 @@
 import { TableBody, TableRow, TableCell } from "@/components/ui/table";
 import { Table } from "@/components/ui/table";
-import React from "react";
+import React, { Fragment } from "react";
 import { Country } from "@/types/country";
 import Link from "next/link";
 
@@ -36,11 +36,24 @@ const BasicInfo = ({ country }: { country: Country }) => {
           )}
           <TableRow>
             <TableCell className="font-medium">Continents</TableCell>
-            <TableCell>{country.continents.join(", ")}</TableCell>
+            <TableCell>
+              {country.continents?.map((continent, index) => (
+                <Fragment key={continent}>
+                  <Link
+                    key={continent}
+                    className="text-blue-500 hover:cursor-pointer"
+                    href={`/countries?continents=${continent}`}
+                  >
+                    {continent}
+                  </Link>
+                  {index < (country.continents?.length ?? 0) - 1 && ", "}
+                </Fragment>
+              ))}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Capital</TableCell>
-            <TableCell>{country.capital?.join(", ")}</TableCell>
+            <TableCell>{country.capital?.join(", ") || "Unknown"}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Population</TableCell>

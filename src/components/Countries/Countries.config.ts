@@ -1,5 +1,5 @@
 import { FilterOptions } from "../FilterItem/FilterItem.config";
-import { Region, Subregion, PopulationRange } from "@/types/country";
+import { Region, Subregion, PopulationRange, Continent } from "@/types/country";
 
 export const regionFilterOptions: FilterOptions<Region>[] = [
   {
@@ -179,6 +179,51 @@ export const subregionFilterOptions: FilterOptions<Subregion>[] = [
     displayName: "Eastern Europe",
     queryValue: "Eastern Europe",
     type: "subregion",
+    selected: false,
+  },
+];
+
+export const continentFilterOptions: FilterOptions<Continent>[] = [
+  {
+    displayName: "Africa",
+    queryValue: "Africa",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "Asia",
+    queryValue: "Asia",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "Oceania",
+    queryValue: "Oceania",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "Europe",
+    queryValue: "Europe",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "North America",
+    queryValue: "North America",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "South America",
+    queryValue: "South America",
+    type: "continents",
+    selected: false,
+  },
+  {
+    displayName: "Antarctica",
+    queryValue: "Antarctica",
+    type: "continents",
     selected: false,
   },
 ];

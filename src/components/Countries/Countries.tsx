@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Country, PopulationRange, Region, Subregion } from "@/types/country";
+import { Country, Region, Subregion, Continent } from "@/types/country";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import CountryCard from "../CountryCard";
@@ -9,11 +9,15 @@ import { Button } from "../ui/button";
 import { FilterIcon, Slash, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import FilterItem from "../FilterItem/FilterItem";
-import { FilterOptions } from "../FilterItem/FilterItem.config";
+import {
+  FilterOptions,
+  FilterTypeValues,
+} from "../FilterItem/FilterItem.config";
 import {
   populationFilterOptions,
   regionFilterOptions,
   subregionFilterOptions,
+  continentFilterOptions,
 } from "./Countries.config";
 import {
   Breadcrumb,
@@ -30,17 +34,18 @@ const Countries = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<
-    FilterOptions<Region | Subregion | PopulationRange>[]
+    FilterOptions<FilterTypeValues>[]
   >([]);
 
   const region = searchParams.get("region") as Region | undefined;
   const subregion = searchParams.get("subregion") as Subregion | undefined;
+  const continent = searchParams.get("continents") as Continent | undefined;
 
   useEffect(() => {
-    if (region || subregion) {
+    if (region || subregion || continent) {
       setShowFilters(true);
       setSelectedFilters(() => {
-        const newFilters: FilterOptions<Region | Subregion>[] = [];
+        const newFilters: FilterOptions<FilterTypeValues>[] = [];
         if (region)
           newFilters.push({
             displayName: region,
@@ -55,16 +60,23 @@ const Countries = () => {
             type: "subregion",
             selected: true,
           });
+        if (continent)
+          newFilters.push({
+            displayName: continent,
+            queryValue: continent,
+            type: "continents",
+            selected: true,
+          });
         return newFilters;
       });
     }
-  }, [region, subregion]);
+  }, [region, subregion, continent]);
 
   const { data: countries } = useQuery<Country[]>({
     queryKey: ["countries"],
     queryFn: async () => {
       const res = await fetch(
-        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,ccn3"
+        "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,ccn3,continents"
       );
       return res.json();
     },
@@ -82,6 +94,10 @@ const Countries = () => {
       .filter((f) => f.type === "subregion")
       .map((f) => f.displayName);
 
+    const continentFilters = selectedFilters
+      .filter((f) => f.type === "continents")
+      .map((f) => f.displayName);
+
     const populationFilters = selectedFilters.filter(
       (f) => f.type === "population"
     );
@@ -96,6 +112,12 @@ const Countries = () => {
       if (
         subregionFilters.length &&
         !subregionFilters.includes(country.subregion ?? "")
+      )
+        return false;
+
+      if (
+        continentFilters.length &&
+        !continentFilters.includes(country?.continents?.[0] ?? "")
       )
         return false;
 
@@ -159,6 +181,12 @@ const Countries = () => {
             <FilterItem
               name="subregion"
               filterOptions={subregionFilterOptions}
+              selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
+            />
+            <FilterItem
+              name="continent"
+              filterOptions={continentFilterOptions}
               selectedFilters={selectedFilters}
               setSelectedFilters={setSelectedFilters}
             />
