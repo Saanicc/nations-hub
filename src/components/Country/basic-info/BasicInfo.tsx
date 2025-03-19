@@ -2,6 +2,7 @@ import { TableBody, TableRow, TableCell } from "@/components/ui/table";
 import { Table } from "@/components/ui/table";
 import React from "react";
 import { Country } from "@/types/country";
+import Link from "next/link";
 
 const BasicInfo = ({ country }: { country: Country }) => {
   return (
@@ -11,12 +12,26 @@ const BasicInfo = ({ country }: { country: Country }) => {
         <TableBody>
           <TableRow>
             <TableCell className="font-medium">Region</TableCell>
-            <TableCell>{country.region}</TableCell>
+            <TableCell>
+              <Link
+                className="text-blue-500 hover:cursor-pointer"
+                href={`/countries?region=${country.region}`}
+              >
+                {country.region}
+              </Link>
+            </TableCell>
           </TableRow>
           {country.subregion && (
             <TableRow>
               <TableCell className="font-medium">Subregion</TableCell>
-              <TableCell>{country.subregion}</TableCell>
+              <TableCell>
+                <Link
+                  className="text-blue-500 hover:cursor-pointer"
+                  href={`/countries?subregion=${country.subregion}`}
+                >
+                  {country.subregion}
+                </Link>
+              </TableCell>
             </TableRow>
           )}
           <TableRow>
@@ -25,7 +40,7 @@ const BasicInfo = ({ country }: { country: Country }) => {
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Capital</TableCell>
-            <TableCell>{country.capital.join(", ")}</TableCell>
+            <TableCell>{country.capital?.join(", ")}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Population</TableCell>

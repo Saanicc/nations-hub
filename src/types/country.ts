@@ -56,7 +56,7 @@ export interface Country {
   independent: boolean;
   status: string;
   unMember: boolean;
-  currencies: {
+  currencies?: {
     [key: string]: {
       name: string;
       symbol: string;
@@ -66,7 +66,7 @@ export interface Country {
     root: string;
     suffixes: string[];
   };
-  capital: string[];
+  capital?: string[];
   altSpellings: string[];
   borders?: string[];
   region: Region;
@@ -83,7 +83,7 @@ export interface Country {
   latlng: number[];
   landlocked: boolean;
   area: number;
-  demonyms: {
+  demonyms?: {
     [key: string]: {
       f: string;
       m: string;
@@ -116,7 +116,7 @@ export interface Country {
   };
   startOfWeek: string;
   capitalInfo: {
-    latlng: number[];
+    latlng?: number[];
   };
   postalCode?: {
     format: string;

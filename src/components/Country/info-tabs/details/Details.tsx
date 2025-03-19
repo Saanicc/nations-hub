@@ -60,29 +60,33 @@ const Details = ({ country }: { country: Country }) => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="currencies">
-          <AccordionTrigger>Currencies</AccordionTrigger>
-          <AccordionContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Code</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Symbol</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Object.entries(country.currencies).map(([code, currency]) => (
-                  <TableRow key={code}>
-                    <TableCell>{code}</TableCell>
-                    <TableCell>{currency.name}</TableCell>
-                    <TableCell>{currency.symbol}</TableCell>
+        {country.currencies && (
+          <AccordionItem value="currencies">
+            <AccordionTrigger>Currencies</AccordionTrigger>
+            <AccordionContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Code</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Symbol</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </AccordionContent>
-        </AccordionItem>
+                </TableHeader>
+                <TableBody>
+                  {Object.entries(country.currencies).map(
+                    ([code, currency]) => (
+                      <TableRow key={code}>
+                        <TableCell>{code}</TableCell>
+                        <TableCell>{currency.name}</TableCell>
+                        <TableCell>{currency.symbol}</TableCell>
+                      </TableRow>
+                    )
+                  )}
+                </TableBody>
+              </Table>
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
         <AccordionItem value="idd">
           <AccordionTrigger>
@@ -104,9 +108,11 @@ const Details = ({ country }: { country: Country }) => {
         <AccordionItem value="car">
           <AccordionTrigger>Car</AccordionTrigger>
           <AccordionContent>
-            <p className="mb-2">
-              International code: {country.car.signs.join(", ")}
-            </p>
+            {country.car?.signs[0] !== "" && (
+              <p className="mb-2">
+                International code: {country.car?.signs.join(", ")}
+              </p>
+            )}
             <p>{capitalizeFirstLetter(country.car.side)}-hand traffic</p>
           </AccordionContent>
         </AccordionItem>
@@ -135,29 +141,31 @@ const Details = ({ country }: { country: Country }) => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="demonyms">
-          <AccordionTrigger>Demonyms</AccordionTrigger>
-          <AccordionContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Lang</TableHead>
-                  <TableHead>Female</TableHead>
-                  <TableHead>Male</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Object.entries(country.demonyms).map(([code, currency]) => (
-                  <TableRow key={code}>
-                    <TableCell>{code}</TableCell>
-                    <TableCell>{currency.f}</TableCell>
-                    <TableCell>{currency.m}</TableCell>
+        {country.demonyms && (
+          <AccordionItem value="demonyms">
+            <AccordionTrigger>Demonyms</AccordionTrigger>
+            <AccordionContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Lang</TableHead>
+                    <TableHead>Female</TableHead>
+                    <TableHead>Male</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </AccordionContent>
-        </AccordionItem>
+                </TableHeader>
+                <TableBody>
+                  {Object.entries(country.demonyms).map(([code, currency]) => (
+                    <TableRow key={code}>
+                      <TableCell>{code}</TableCell>
+                      <TableCell>{currency.f}</TableCell>
+                      <TableCell>{currency.m}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </AccordionContent>
+          </AccordionItem>
+        )}
         {country.postalCode && (
           <AccordionItem value="postalCode">
             <AccordionTrigger>Postal Code</AccordionTrigger>

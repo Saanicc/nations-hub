@@ -22,14 +22,43 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
+import { useSearchParams } from "next/navigation";
 
 const Countries = () => {
+  const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<
     FilterOptions<Region | Subregion | PopulationRange>[]
   >([]);
+
+  const region = searchParams.get("region") as Region | undefined;
+  const subregion = searchParams.get("subregion") as Subregion | undefined;
+
+  useEffect(() => {
+    if (region || subregion) {
+      setShowFilters(true);
+      setSelectedFilters(() => {
+        const newFilters: FilterOptions<Region | Subregion>[] = [];
+        if (region)
+          newFilters.push({
+            displayName: region,
+            queryValue: region,
+            type: "region",
+            selected: true,
+          });
+        if (subregion)
+          newFilters.push({
+            displayName: subregion,
+            queryValue: subregion,
+            type: "subregion",
+            selected: true,
+          });
+        return newFilters;
+      });
+    }
+  }, [region, subregion]);
 
   const { data: countries } = useQuery<Country[]>({
     queryKey: ["countries"],
