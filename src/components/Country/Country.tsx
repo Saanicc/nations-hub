@@ -60,7 +60,7 @@ const CountryPage = ({ id }: { id: string }) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Card className="mb-8">
+      <Card className="h-full overflow-y-auto">
         <CardHeader className="">
           <div className="flex justify-between items-start">
             <div>

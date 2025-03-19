@@ -8,7 +8,7 @@ const CountryPage = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="h-screen flex flex-col overflow-hidden container mx-auto p-4 pt-6">
       <Country id={id} />
     </main>
   );

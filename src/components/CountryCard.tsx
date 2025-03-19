@@ -24,6 +24,7 @@ const CountryCard = ({ country }: { country: Country }) => {
           <p className="">Population: {country.population.toLocaleString()}</p>
         </div>
         <Image
+          priority
           src={country.flags.svg}
           width={100}
           height={100}
@@ -33,7 +34,7 @@ const CountryCard = ({ country }: { country: Country }) => {
       </CardContent>
       <CardFooter className="p-0">
         <Button
-          className="bg-popover-foreground cursor-pointer"
+          className="bg-popover-foreground cursor-pointer w-full md:w-auto"
           onClick={() => {
             router.push(`/countries/${country.ccn3}`);
           }}
