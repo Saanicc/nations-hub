@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Country } from "@/types/country";
+import { Country, PopulationRange, Region, Subregion } from "@/types/country";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import CountryCard from "../CountryCard";
@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { FilterIcon, Slash, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import FilterItem from "../FilterItem/FilterItem";
-import { FilterOptions, FilterType } from "../FilterItem/FilterItem.config";
+import { FilterOptions } from "../FilterItem/FilterItem.config";
 import {
   populationFilterOptions,
   regionFilterOptions,
@@ -28,7 +28,7 @@ const Countries = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<
-    FilterOptions<FilterType>[]
+    FilterOptions<Region | Subregion | PopulationRange>[]
   >([]);
 
   const { data: countries } = useQuery<Country[]>({
@@ -47,11 +47,11 @@ const Countries = () => {
     const lowercaseSearchTerm = searchTerm.toLowerCase();
     const regionFilters = selectedFilters
       .filter((f) => f.type === "region")
-      .map((f) => f.filter);
+      .map((f) => f.displayName);
 
     const subregionFilters = selectedFilters
       .filter((f) => f.type === "subregion")
-      .map((f) => f.filter);
+      .map((f) => f.displayName);
 
     const populationFilters = selectedFilters.filter(
       (f) => f.type === "population"
@@ -66,14 +66,14 @@ const Countries = () => {
 
       if (
         subregionFilters.length &&
-        !subregionFilters.includes(country.subregion)
+        !subregionFilters.includes(country.subregion ?? "")
       )
         return false;
 
       if (populationFilters.length) {
         return populationFilters.some((f) => {
-          if (typeof f.filter !== "object") return false;
-          const { min = 0, max } = f.filter;
+          if (typeof f.queryValue !== "object") return false;
+          const { min = 0, max } = f.queryValue;
           return (
             country.population >= min &&
             (max === undefined || country.population <= max)
@@ -144,12 +144,12 @@ const Countries = () => {
             <div className="w-full flex-wrap flex items-center gap-2">
               {selectedFilters.map((filter, index) => (
                 <Badge key={index} variant="secondary">
-                  {filter.name}
+                  {filter.displayName}
                   <button
                     type="button"
                     onClick={() =>
                       setSelectedFilters((prev) =>
-                        prev.filter((f) => f.name !== filter.name)
+                        prev.filter((f) => f.displayName !== filter.displayName)
                       )
                     }
                   >

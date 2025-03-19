@@ -1,18 +1,15 @@
-import { PopulationRange, Region, Subregion } from "@/types/country";
+export type FilterType = "region" | "subregion" | "population";
 
-export type FilterType = Region | Subregion | PopulationRange;
-
-export type FilterOptions<FilterType> = {
+export type FilterItemProps<T> = {
   name: string;
-  type: "region" | "subregion" | "population";
-  filter?: FilterType;
+  filterOptions: FilterOptions<T>[];
+  selectedFilters: FilterOptions<T>[];
+  setSelectedFilters: React.Dispatch<React.SetStateAction<FilterOptions<T>[]>>;
 };
 
-export type FilterItemProps = {
-  name: string;
-  filterOptions: FilterOptions<FilterType>[];
-  selectedFilters: FilterOptions<FilterType>[];
-  setSelectedFilters: React.Dispatch<
-    React.SetStateAction<FilterOptions<FilterType>[]>
-  >;
-};
+export interface FilterOptions<T> {
+  displayName: string;
+  queryValue: T;
+  selected: boolean;
+  type: FilterType;
+}

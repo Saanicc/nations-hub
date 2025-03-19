@@ -8,30 +8,43 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { CheckSquare, ChevronDown, ChevronUp, Square } from "lucide-react";
+import { useCallback, useState } from "react";
 import { FilterItemProps } from "./FilterItem.config";
+import { Region, Subregion, PopulationRange } from "@/types/country";
+import { FilterOptions } from "./FilterItem.config";
 
 const FilterItem = ({
   name,
   filterOptions,
   selectedFilters,
   setSelectedFilters,
-}: FilterItemProps) => {
+}: FilterItemProps<Region | Subregion | PopulationRange>) => {
   const [open, setOpen] = useState(false);
 
-  const handleFilterClick = (
-    filter: FilterItemProps["filterOptions"][number]
-  ) => {
-    setSelectedFilters((prev) => {
-      const filterExists = prev.some((f) => f.name === filter.name);
+  const handleFilterClick = useCallback(
+    (filter: FilterOptions<Region | Subregion | PopulationRange>) => {
+      setSelectedFilters((prev) => {
+        const filterExists = prev.some(
+          (f) => f.displayName === filter.displayName
+        );
 
-      if (filterExists) {
-        return prev.filter((f) => f.name !== filter.name);
-      }
-      return [...prev, filter];
-    });
-  };
+        if (filterExists) {
+          return prev.filter((f) => f.displayName !== filter.displayName);
+        }
+        return [...prev, filter];
+      });
+    },
+    [setSelectedFilters]
+  );
+
+  const isFilterSelected = useCallback(
+    (option: FilterOptions<Region | Subregion | PopulationRange>): boolean =>
+      selectedFilters.some(
+        (filter) => filter.displayName === option.displayName
+      ),
+    [selectedFilters]
+  );
 
   return (
     <DropdownMenu onOpenChange={setOpen}>
@@ -48,15 +61,12 @@ const FilterItem = ({
         <DropdownMenuGroup>
           {filterOptions.map((option) => (
             <DropdownMenuItem
-              key={option.name}
+              key={option.displayName}
               onClick={() => handleFilterClick(option)}
-              className={`${
-                selectedFilters.some((filter) => filter.name === option.name)
-                  ? "bg-primary-foreground"
-                  : ""
-              } cursor-pointer`}
+              className={`flex items-center justify-between gap-2 cursor-pointer`}
             >
-              {option.name}
+              {option.displayName}
+              {isFilterSelected(option) ? <CheckSquare /> : <Square />}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
