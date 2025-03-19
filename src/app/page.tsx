@@ -12,7 +12,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div className="text-center">
               <h1 className="text-4xl font-extrabold sm:text-5xl md:text-6xl">
-                <span className="block">Welcome to CountryInfo</span>
+                <span className="block">Welcome to Countrynfo</span>
               </h1>
               <p className="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
                 Here you can find information about countries around the globe.

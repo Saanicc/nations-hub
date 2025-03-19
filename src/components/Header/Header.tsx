@@ -14,7 +14,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center">
             <Globe className="h-8 w-8 text-blue-600" />
-            <span className="ml-2 text-2xl font-bold ">CountryInfo</span>
+            <span className="ml-2 text-2xl font-bold ">Countrynfo</span>
           </Link>
           <nav className="flex space-x-6">
             <Link
