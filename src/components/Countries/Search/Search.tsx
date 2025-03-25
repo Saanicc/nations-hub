@@ -17,14 +17,17 @@ import {
   subregionFilterOptions,
   continentFilterOptions,
 } from "../Countries.config";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 const Search = ({
   handleQueryUpdate,
+  numberOfCountries,
 }: {
   handleQueryUpdate: (
     filter: FilterOptions<FilterTypeValues>[],
     textSearch: string | undefined
   ) => void;
+  numberOfCountries: number;
 }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [filterQueries, setFilterQueries] = useState<
@@ -94,7 +97,7 @@ const Search = ({
   return (
     <>
       <h1 className="text-3xl font-bold mb-6 mt-4">Countries</h1>
-      <div className="w-full mb-4 flex gap-4">
+      <div className="w-full mb-0.5 flex gap-4">
         <Input
           type="text"
           placeholder="Search for a country..."
@@ -110,6 +113,9 @@ const Search = ({
           {`${showFilters ? "Hide" : "Show"} filters`}
         </Button>
       </div>
+      <span className="text-[12px] mt-0.5 mb-2 ml-2">
+        {numberOfCountries} countries found
+      </span>
       {showFilters && (
         <div className="mb-4">
           <div className="flex flex-row flex-wrap gap-2">
@@ -142,7 +148,8 @@ const Search = ({
             <div className="w-full flex-wrap flex items-center gap-2 mt-4">
               {filterQueries.map((filter, index) => (
                 <Badge key={index} variant="secondary">
-                  {filter.displayName}
+                  {capitalizeFirstLetter(filter.type)}:{" "}
+                  {filter.displayName.toLowerCase()}
                   <button type="button" onClick={() => removeFilter(filter)}>
                     <X size={15} className="cursor-pointer" />
                   </button>

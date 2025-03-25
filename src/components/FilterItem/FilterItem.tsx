@@ -26,11 +26,13 @@ const FilterItem = ({
     (filter: FilterOptions<FilterTypeValues>) => {
       const prev = [...selectedFilters];
       const filterExists = prev.some(
-        (f) => f.displayName === filter.displayName
+        (f) => f.queryValue === filter.queryValue && f.type === filter.type
       );
 
       if (filterExists) {
-        prev.filter((f) => f.displayName !== filter.displayName);
+        prev.filter(
+          (f) => f.queryValue !== filter.queryValue && f.type !== filter.type
+        );
       } else {
         prev.push(filter);
       }
@@ -42,7 +44,8 @@ const FilterItem = ({
   const isFilterSelected = useCallback(
     (option: FilterOptions<FilterTypeValues>): boolean =>
       selectedFilters.some(
-        (filter) => filter.displayName === option.displayName
+        (filter) =>
+          filter.queryValue === option.queryValue && filter.type === option.type
       ),
     [selectedFilters]
   );

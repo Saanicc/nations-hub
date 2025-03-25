@@ -71,7 +71,10 @@ export default function Home() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Search handleQueryUpdate={handleQueryUpdate} />
+        <Search
+          handleQueryUpdate={handleQueryUpdate}
+          numberOfCountries={selectedFilteredCountries.length}
+        />
         <div className="flex-grow overflow-hidden">
           <Countries
             countries={selectedFilteredCountries}
