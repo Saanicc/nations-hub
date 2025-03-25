@@ -1,12 +1,16 @@
 "use client";
 
-import { useCountryContext } from "@/contexts/CountryContext";
 import CountryCard from "../CountryCard";
 import { Spinner } from "../ui/loading-spinner";
+import { Country } from "@/types/country";
 
-const Countries = () => {
-  const { filteredCountries, isLoading } = useCountryContext();
-
+const Countries = ({
+  countries,
+  isLoading,
+}: {
+  countries: Country[];
+  isLoading: boolean;
+}) => {
   return (
     <div className="h-full overflow-y-auto">
       {isLoading ? (
@@ -16,7 +20,7 @@ const Countries = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredCountries.map((country) => (
+          {countries.map((country) => (
             <CountryCard key={country.name.common} country={country} />
           ))}
         </div>

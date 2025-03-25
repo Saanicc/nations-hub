@@ -18,24 +18,25 @@ const FilterItem = ({
   name,
   filterOptions,
   selectedFilters,
-  setSelectedFilters,
+  onSelect,
 }: FilterItemProps<FilterTypeValues>) => {
   const [open, setOpen] = useState(false);
 
   const handleFilterClick = useCallback(
     (filter: FilterOptions<FilterTypeValues>) => {
-      setSelectedFilters((prev) => {
-        const filterExists = prev.some(
-          (f) => f.displayName === filter.displayName
-        );
+      const prev = [...selectedFilters];
+      const filterExists = prev.some(
+        (f) => f.displayName === filter.displayName
+      );
 
-        if (filterExists) {
-          return prev.filter((f) => f.displayName !== filter.displayName);
-        }
-        return [...prev, filter];
-      });
+      if (filterExists) {
+        prev.filter((f) => f.displayName !== filter.displayName);
+      } else {
+        prev.push(filter);
+      }
+      onSelect(prev);
     },
-    [setSelectedFilters]
+    [onSelect, selectedFilters]
   );
 
   const isFilterSelected = useCallback(

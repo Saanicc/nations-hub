@@ -15,5 +15,5 @@ export type FilterItemProps<T> = {
   name: string;
   filterOptions: FilterOptions<T>[];
   selectedFilters: FilterOptions<T>[];
-  setSelectedFilters: React.Dispatch<React.SetStateAction<FilterOptions<T>[]>>;
+  onSelect: (filters: FilterOptions<T>[]) => void;
 };
