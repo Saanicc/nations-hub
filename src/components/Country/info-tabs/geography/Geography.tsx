@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/loading-spinner";
 import { Country } from "@/types/country";

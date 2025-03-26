@@ -26,17 +26,14 @@ export default function MyMap({
   const { data: geoJsonData, isLoading } = useQuery({
     queryKey: ["geoJson", cca3],
     queryFn: async () => {
-      const res = await fetch(
-        `https://cors-anywhere.herokuapp.com/https://www.geoboundaries.org/api/current/gbOpen/${cca3}/ADM0`
-      );
+      const res = await fetch(`/api/proxy?cca3=${cca3}`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch geoJSON data: ${res.status}`);
+      }
       const resJson = await res.json();
-      const geoJsonResponse = await fetch(
-        `https://cors-anywhere.herokuapp.com/${resJson.simplifiedGeometryGeoJSON}`
-      );
-      const geoJsonData = await geoJsonResponse.json();
-      return geoJsonData;
+      return resJson;
     },
-    staleTime: 60 * 60 * 1000, // 1 hour
+    staleTime: 60 * 60 * 1000,
   });
 
   return (
@@ -49,7 +46,7 @@ export default function MyMap({
         <MapContainer
           center={countryCoordinates}
           zoom={zoom}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
