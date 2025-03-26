@@ -75,6 +75,7 @@ const CountryPage = ({ id }: { id: string }) => {
               width={200}
               height={200}
               className="w-auto max-h-16 sm:max-h-20 md:max-h-32 lg:max-h-40 object-contain"
+              priority
             />
           </div>
         </CardHeader>
