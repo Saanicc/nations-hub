@@ -12,7 +12,9 @@ const InfoTabs = ({ country }: { country: Country }) => {
     <Tabs defaultValue="details" className="mt-6">
       <TabsList className="flex flex-wrap h-auto items-start justify-start">
         <TabsTrigger value="details">Details</TabsTrigger>
-        <TabsTrigger value="languages">Languages</TabsTrigger>
+        {country.languages && (
+          <TabsTrigger value="languages">Languages</TabsTrigger>
+        )}
         <TabsTrigger value="translations">Translations</TabsTrigger>
         <TabsTrigger value="geography">Geography</TabsTrigger>
         <TabsTrigger value="additional">Additional</TabsTrigger>
@@ -22,12 +24,14 @@ const InfoTabs = ({ country }: { country: Country }) => {
         <Details country={country} />
       </TabsContent>
 
-      <TabsContent value="languages">
-        <Languages country={country} />
-      </TabsContent>
+      {country.languages && (
+        <TabsContent value="languages">
+          <Languages languages={country.languages} />
+        </TabsContent>
+      )}
 
       <TabsContent value="translations">
-        <Translations country={country} />
+        <Translations translations={country.translations} />
       </TabsContent>
 
       <TabsContent value="geography">

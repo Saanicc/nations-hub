@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/table";
 import { Country } from "@/types/country";
 
-const Translations = ({ country }: { country: Country }) => {
+const Translations = ({
+  translations,
+}: {
+  translations: Country["translations"];
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -27,7 +31,7 @@ const Translations = ({ country }: { country: Country }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Object.entries(country.translations).map(([lang, trans]) => (
+              {Object.entries(translations).map(([lang, trans]) => (
                 <TableRow key={lang}>
                   <TableCell>{lang}</TableCell>
                   <TableCell>{trans.official}</TableCell>

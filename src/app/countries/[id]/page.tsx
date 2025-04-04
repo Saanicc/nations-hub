@@ -8,7 +8,7 @@ const CountryPage = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <main className="h-screen flex flex-col overflow-hidden container mx-auto p-4 pt-6">
+    <main className="h-screen flex flex-col overflow-hidden container mx-auto p-4 pt-2">
       <Country id={id} />
     </main>
   );

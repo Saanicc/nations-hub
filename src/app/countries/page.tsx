@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Header />
-      <main className="flex flex-col flex-grow container mx-auto px-4 pt-6 overflow-hidden">
+      <main className="flex flex-col flex-grow container mx-auto px-4 pt-2 overflow-hidden">
         <Breadcrumb className="mt-14">
           <BreadcrumbList>
             <BreadcrumbItem>

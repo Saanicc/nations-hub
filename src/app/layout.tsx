@@ -12,9 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const websiteName = "NationsHub";
+
 export const metadata: Metadata = {
-  title: "Countrynfo",
-  description: "Countrynfo - Find information about countries around the globe",
+  title: websiteName,
+  description: `${websiteName} - Find information about countries around the globe`,
 };
 
 export default function RootLayout({
