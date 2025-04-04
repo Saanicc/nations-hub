@@ -2,18 +2,60 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { LatLngExpression } from "leaflet";
-import { MapContainer, Marker, TileLayer, GeoJSON, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  GeoJSON,
+  Popup,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import { Spinner } from "../ui/loading-spinner";
+import L from "leaflet";
+import { useEffect } from "react";
+import * as geojson from "geojson";
 
 type MapProps = {
   countryName: string;
   cca3: string;
   countryCoordinates: LatLngExpression;
-  capitalCoordinates: LatLngExpression;
-  zoom: number;
+  capitalCoordinates?: LatLngExpression;
+};
+
+const GeoJSONCenter = ({
+  geoJsonData,
+  countryCoordinates,
+}: {
+  geoJsonData: geojson.FeatureCollection;
+  countryCoordinates: LatLngExpression;
+}) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (geoJsonData && map) {
+      const geoJSONlayer = L.geoJSON(geoJsonData);
+
+      const bounds = geoJSONlayer.getBounds();
+
+      if (bounds.isValid()) {
+        const boundsZoom = map.getBoundsZoom(bounds);
+        map.flyTo(countryCoordinates, boundsZoom, {
+          animate: true,
+          duration: 0.5,
+        });
+
+        setTimeout(() => {
+          const worldBounds = L.latLngBounds([-90, -180], [90, 180]);
+          map.setMaxBounds(worldBounds);
+        }, 600);
+      }
+    }
+  }, [geoJsonData, countryCoordinates, map]);
+
+  return null;
 };
 
 export default function MyMap({
@@ -21,9 +63,12 @@ export default function MyMap({
   cca3,
   countryCoordinates,
   capitalCoordinates,
-  zoom,
 }: MapProps) {
-  const { data: geoJsonData, isLoading } = useQuery({
+  const {
+    data: geoJsonData,
+    isLoading,
+    isError,
+  } = useQuery<geojson.FeatureCollection>({
     queryKey: ["geoJson", cca3],
     queryFn: async () => {
       const res = await fetch(`/api/proxy?cca3=${cca3}`);
@@ -33,34 +78,52 @@ export default function MyMap({
       const resJson = await res.json();
       return resJson;
     },
+    gcTime: 60 * 60 * 1000,
     staleTime: 60 * 60 * 1000,
+    retry: 3,
   });
+
+  if (isError) {
+    return <p>Failed to load map data</p>;
+  }
 
   return (
     <>
-      {isLoading ? (
-        <Spinner>
-          <p>Loading map...</p>
-        </Spinner>
-      ) : (
-        <MapContainer
-          center={countryCoordinates}
-          zoom={zoom}
-          scrollWheelZoom={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+      <MapContainer
+        center={[0, 0]}
+        scrollWheelZoom={false}
+        style={{ height: "100%", width: "100%", borderRadius: "10px" }}
+        worldCopyJump={false}
+        maxBoundsViscosity={1}
+        zoom={1}
+        minZoom={1}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {capitalCoordinates && (
           <Marker position={capitalCoordinates}>
             <Popup>The capital of {countryName}.</Popup>
           </Marker>
-          {geoJsonData && (
-            <GeoJSON data={geoJsonData} style={{ color: "#ff9500" }} />
-          )}
-        </MapContainer>
-      )}
+        )}
+        {isLoading && (
+          <div className="w-full h-full flex items-center justify-center bg-[#000000aa] z-[100000] absolute">
+            <Spinner>
+              <p>Loading location data...</p>
+            </Spinner>
+          </div>
+        )}
+        {geoJsonData && (
+          <>
+            <GeoJSON data={geoJsonData} style={{ color: "#155dfc" }} />
+            <GeoJSONCenter
+              geoJsonData={geoJsonData}
+              countryCoordinates={countryCoordinates}
+            />
+          </>
+        )}
+      </MapContainer>
     </>
   );
 }

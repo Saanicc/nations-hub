@@ -20,14 +20,13 @@ const Geography = ({ country }: { country: Country }) => {
   );
 
   return (
-    <Card className="w-full h-[65vh]">
-      <CardContent className="w-full h-full">
+    <Card className="w-full h-[65vh] p-0">
+      <CardContent className="w-full h-full p-0">
         <Map
           countryName={country.name.common}
           cca3={country.cca3}
           countryCoordinates={country.latlng as LatLngExpression}
           capitalCoordinates={country.capitalInfo.latlng as LatLngExpression}
-          zoom={3}
         />
       </CardContent>
     </Card>
