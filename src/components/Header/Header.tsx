@@ -18,14 +18,6 @@ const Header = () => {
           </Link>
           <nav className="flex space-x-6">
             <Link
-              href="/"
-              className={`hover:cursor-pointer font-medium ${
-                pathname === "/" ? "text-blue-600" : ""
-              }`}
-            >
-              Home
-            </Link>
-            <Link
               href="/countries"
               className={`hover:cursor-pointer ${
                 pathname === "/countries" ? "text-blue-600" : ""
