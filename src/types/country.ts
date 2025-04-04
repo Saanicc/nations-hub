@@ -71,9 +71,9 @@ export interface Country {
       symbol: string;
     };
   };
-  idd: {
-    root: string;
-    suffixes: string[];
+  idd?: {
+    root?: string;
+    suffixes?: string[];
   };
   capital?: string[];
   altSpellings: string[];
@@ -92,12 +92,6 @@ export interface Country {
   latlng: number[];
   landlocked: boolean;
   area: number;
-  demonyms?: {
-    [key: string]: {
-      f: string;
-      m: string;
-    };
-  };
   flag: string;
   maps: {
     googleMaps: string;
