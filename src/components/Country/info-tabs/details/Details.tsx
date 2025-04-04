@@ -18,35 +18,17 @@ import React from "react";
 import BorderingCountry from "./bordering-country/BorderingCountry";
 
 const Details = ({ country }: { country: Country }) => {
+  const hasIdd =
+    country.idd?.root &&
+    country.idd.suffixes &&
+    country.idd?.suffixes?.length > 0;
+
+  const hasCurrencies: boolean =
+    !!country.currencies && Object.keys(country.currencies).length > 0;
+
   return (
     <>
       <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="name">
-          <AccordionTrigger>Native Names</AccordionTrigger>
-          <AccordionContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Language</TableHead>
-                  <TableHead>Official</TableHead>
-                  <TableHead>Common</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Object.entries(country.name.nativeName).map(
-                  ([lang, names]) => (
-                    <TableRow key={lang}>
-                      <TableCell>{lang}</TableCell>
-                      <TableCell>{names.official}</TableCell>
-                      <TableCell>{names.common}</TableCell>
-                    </TableRow>
-                  )
-                )}
-              </TableBody>
-            </Table>
-          </AccordionContent>
-        </AccordionItem>
-
         <AccordionItem value="borders">
           <AccordionTrigger>Bordering Countries</AccordionTrigger>
           <AccordionContent>
@@ -60,10 +42,10 @@ const Details = ({ country }: { country: Country }) => {
           </AccordionContent>
         </AccordionItem>
 
-        {country.currencies && (
-          <AccordionItem value="currencies">
-            <AccordionTrigger>Currencies</AccordionTrigger>
-            <AccordionContent>
+        <AccordionItem value="currencies">
+          <AccordionTrigger>Currencies</AccordionTrigger>
+          <AccordionContent>
+            {hasCurrencies ? (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -73,28 +55,44 @@ const Details = ({ country }: { country: Country }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {Object.entries(country.currencies).map(
-                    ([code, currency]) => (
-                      <TableRow key={code}>
-                        <TableCell>{code}</TableCell>
-                        <TableCell>{currency.name}</TableCell>
-                        <TableCell>{currency.symbol}</TableCell>
-                      </TableRow>
-                    )
+                  {country.currencies && (
+                    <>
+                      {Object.entries(country.currencies).map(
+                        ([code, currency]) => (
+                          <TableRow key={code}>
+                            <TableCell>{code}</TableCell>
+                            <TableCell>{currency.name}</TableCell>
+                            <TableCell>{currency.symbol}</TableCell>
+                          </TableRow>
+                        )
+                      )}
+                    </>
                   )}
                 </TableBody>
               </Table>
-            </AccordionContent>
-          </AccordionItem>
-        )}
+            ) : (
+              <p className="text-muted-foreground">
+                No currency information available
+              </p>
+            )}
+          </AccordionContent>
+        </AccordionItem>
 
         <AccordionItem value="idd">
           <AccordionTrigger>
             International Direct Dialing (IDD)
           </AccordionTrigger>
           <AccordionContent>
-            <p className="mb-2">Root: {country.idd.root}</p>
-            <p>Suffixes: {country.idd.suffixes.join(", ")}</p>
+            {hasIdd ? (
+              <>
+                <p className="mb-2">Root: {country.idd?.root}</p>
+                <p>Suffixes: {country.idd?.suffixes?.join(", ")}</p>
+              </>
+            ) : (
+              <p className="text-muted-foreground">
+                No IDD information available
+              </p>
+            )}
           </AccordionContent>
         </AccordionItem>
 
@@ -140,32 +138,6 @@ const Details = ({ country }: { country: Country }) => {
             <p>{country.altSpellings.join(", ")}</p>
           </AccordionContent>
         </AccordionItem>
-
-        {country.demonyms && (
-          <AccordionItem value="demonyms">
-            <AccordionTrigger>Demonyms</AccordionTrigger>
-            <AccordionContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Lang</TableHead>
-                    <TableHead>Female</TableHead>
-                    <TableHead>Male</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {Object.entries(country.demonyms).map(([code, currency]) => (
-                    <TableRow key={code}>
-                      <TableCell>{code}</TableCell>
-                      <TableCell>{currency.f}</TableCell>
-                      <TableCell>{currency.m}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </AccordionContent>
-          </AccordionItem>
-        )}
         {country.postalCode && (
           <AccordionItem value="postalCode">
             <AccordionTrigger>Postal Code</AccordionTrigger>
