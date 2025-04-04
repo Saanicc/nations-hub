@@ -5,11 +5,21 @@ import Link from "next/link";
 import { Globe } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const Header = () => {
+const Header = ({
+  transparent = false,
+  className,
+}: {
+  transparent?: boolean;
+  className?: string;
+}) => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-background border-b z-10">
+    <header
+      className={`fixed top-0 left-0 right-0 z-10 ${
+        transparent ? "bg-transparent" : "bg-background border-b"
+      } ${className}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center">

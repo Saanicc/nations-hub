@@ -2,18 +2,21 @@ import Link from "next/link";
 import Header from "@/components/Header/Header";
 import { Button } from "@/components/ui/button";
 import { websiteName } from "./layout";
-import WorldMap from "../../public/world-map.svg";
+import WorldMap from "../../public/world-map.png";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
-      <WorldMap
+      <Image
+        src={WorldMap}
         alt="World map"
-        className="absolute w-full h-full object-cover dark:invert"
+        className="absolute w-full h-full object-cover z-0"
+        style={{ width: "100%", height: "100vh" }}
       />
-      <Header />
+      <Header transparent className="pt-10 px-4" />
 
-      <main>
+      <main className="z-10">
         <section>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div className="text-center">
