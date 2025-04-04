@@ -21,11 +21,11 @@ const BasicInfo = ({ country }: { country: Country }) => {
           )}
           <TableRow>
             <TableCell className="font-medium">Continents</TableCell>
-            <TableCell>{country.continents.join(", ")}</TableCell>
+            <TableCell>{country.continents?.join(", ")}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Capital</TableCell>
-            <TableCell>{country.capital.join(", ")}</TableCell>
+            <TableCell>{country.capital?.join(", ")}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Population</TableCell>

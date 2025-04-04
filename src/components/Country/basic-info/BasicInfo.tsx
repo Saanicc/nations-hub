@@ -34,23 +34,25 @@ const BasicInfo = ({ country }: { country: Country }) => {
               </TableCell>
             </TableRow>
           )}
-          <TableRow>
-            <TableCell className="font-medium">Continents</TableCell>
-            <TableCell>
-              {country.continents?.map((continent, index) => (
-                <Fragment key={continent}>
-                  <Link
-                    key={continent}
-                    className="text-blue-500 hover:cursor-pointer"
-                    href={`/countries?continents=${continent}`}
-                  >
-                    {continent}
-                  </Link>
-                  {index < (country.continents?.length ?? 0) - 1 && ", "}
-                </Fragment>
-              ))}
-            </TableCell>
-          </TableRow>
+          {country.continents && (
+            <TableRow>
+              <TableCell className="font-medium">Continents</TableCell>
+              <TableCell>
+                {country.continents?.map((continent, index) => (
+                  <Fragment key={continent}>
+                    <Link
+                      key={continent}
+                      className="text-blue-500 hover:cursor-pointer"
+                      href={`/countries?continents=${continent}`}
+                    >
+                      {continent}
+                    </Link>
+                    {index < (country.continents?.length ?? 0) - 1 && ", "}
+                  </Fragment>
+                ))}
+              </TableCell>
+            </TableRow>
+          )}
           <TableRow>
             <TableCell className="font-medium">Capital</TableCell>
             <TableCell>{country.capital?.join(", ") || "Unknown"}</TableCell>
