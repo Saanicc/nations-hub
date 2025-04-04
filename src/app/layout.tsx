@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { WEBSITE_NAME } from "@/lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,11 +13,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const websiteName = "NationsHub";
-
 export const metadata: Metadata = {
-  title: websiteName,
-  description: `${websiteName} - Find information about countries around the globe`,
+  title: WEBSITE_NAME,
+  description: `${WEBSITE_NAME} - Find information about countries around the globe`,
 };
 
 export default function RootLayout({
