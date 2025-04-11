@@ -3,8 +3,32 @@ import { Table } from "@/components/ui/table";
 import React, { Fragment } from "react";
 import { Country } from "@/types/country";
 import Link from "next/link";
+import { useFilterContext } from "@/contexts/filterContext";
+import {
+  FilterOptions,
+  FilterType,
+  FilterTypeValues,
+} from "@/components/FilterItem/FilterItem.config";
+import { Region, Subregion, Continent } from "@/types/country";
 
 const BasicInfo = ({ country }: { country: Country }) => {
+  const { updateFilters } = useFilterContext();
+
+  const handleFilterClick = (
+    filterType: FilterType,
+    value: Region | Subregion | Continent
+  ): void => {
+    const newFilters: FilterOptions<FilterTypeValues>[] = [];
+
+    newFilters.push({
+      displayName: value,
+      queryValue: value,
+      type: filterType,
+      selected: true,
+    });
+    updateFilters(newFilters);
+  };
+
   return (
     <div>
       <h3 className="font-semibold mb-2">Basic Information</h3>
@@ -15,7 +39,8 @@ const BasicInfo = ({ country }: { country: Country }) => {
             <TableCell>
               <Link
                 className="text-blue-500 hover:cursor-pointer"
-                href={`/countries?region=${country.region}`}
+                href={`/countries`}
+                onClick={() => handleFilterClick("region", country.region)}
               >
                 {country.region}
               </Link>
@@ -27,7 +52,13 @@ const BasicInfo = ({ country }: { country: Country }) => {
               <TableCell>
                 <Link
                   className="text-blue-500 hover:cursor-pointer"
-                  href={`/countries?subregion=${country.subregion}`}
+                  href={`/countries`}
+                  onClick={() =>
+                    handleFilterClick(
+                      "subregion",
+                      country.subregion as Subregion
+                    )
+                  }
                 >
                   {country.subregion}
                 </Link>
@@ -43,7 +74,10 @@ const BasicInfo = ({ country }: { country: Country }) => {
                     <Link
                       key={continent}
                       className="text-blue-500 hover:cursor-pointer"
-                      href={`/countries?continents=${continent}`}
+                      href={`/countries`}
+                      onClick={() =>
+                        handleFilterClick("continents", continent as Continent)
+                      }
                     >
                       {continent}
                     </Link>

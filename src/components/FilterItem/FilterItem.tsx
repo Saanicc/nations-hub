@@ -13,6 +13,7 @@ import { useCallback, useState } from "react";
 import { FilterItemProps } from "./FilterItem.config";
 import { FilterOptions } from "./FilterItem.config";
 import { FilterTypeValues } from "./FilterItem.config";
+import { useFilterContext } from "@/contexts/filterContext";
 
 const FilterItem = ({
   name,
@@ -20,34 +21,25 @@ const FilterItem = ({
   selectedFilters,
   onSelect,
 }: FilterItemProps<FilterTypeValues>) => {
+  const { isFilterSelected } = useFilterContext();
   const [open, setOpen] = useState(false);
 
   const handleFilterClick = useCallback(
-    (filter: FilterOptions<FilterTypeValues>) => {
+    (newFilter: FilterOptions<FilterTypeValues>) => {
       const prev = [...selectedFilters];
-      const filterExists = prev.some(
-        (f) => f.queryValue === filter.queryValue && f.type === filter.type
+      const filterIndex = prev.findIndex(
+        (f) =>
+          f.queryValue === newFilter.queryValue && f.type === newFilter.type
       );
 
-      if (filterExists) {
-        prev.filter(
-          (f) => f.queryValue !== filter.queryValue && f.type !== filter.type
-        );
+      if (filterIndex !== -1) {
+        prev.splice(filterIndex, 1);
       } else {
-        prev.push(filter);
+        prev.push(newFilter);
       }
       onSelect(prev);
     },
     [onSelect, selectedFilters]
-  );
-
-  const isFilterSelected = useCallback(
-    (option: FilterOptions<FilterTypeValues>): boolean =>
-      selectedFilters.some(
-        (filter) =>
-          filter.queryValue === option.queryValue && filter.type === option.type
-      ),
-    [selectedFilters]
   );
 
   return (
@@ -70,7 +62,11 @@ const FilterItem = ({
               className={`flex items-center justify-between gap-2 cursor-pointer`}
             >
               {option.displayName}
-              {isFilterSelected(option) ? <CheckSquare /> : <Square />}
+              {isFilterSelected(option) ? (
+                <CheckSquare color="#FFF" />
+              ) : (
+                <Square />
+              )}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>

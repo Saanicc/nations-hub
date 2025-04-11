@@ -10,21 +10,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-import Search from "@/components/Countries/Search/Search";
 import { Country } from "@/types/country";
 import { useQuery } from "@tanstack/react-query";
-import {
-  FilterOptions,
-  FilterTypeValues,
-} from "@/components/FilterItem/FilterItem.config";
-import { useCallback, useState } from "react";
 import CountryFilter from "@/utils/country-filter";
+import { useFilterContext } from "@/contexts/filterContext";
+import Search from "@/components/Countries/Search/Search";
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filterQueries, setFilterQueries] = useState<
-    FilterOptions<FilterTypeValues>[]
-  >([]);
+  const { filters, searchQuery } = useFilterContext();
 
   const { data, isLoading } = useQuery<Country[]>({
     queryKey: ["countries"],
@@ -37,21 +30,10 @@ export default function Home() {
     staleTime: 60 * 60 * 1000,
   });
 
-  const countryFilter = new CountryFilter(filterQueries);
+  const countryFilter = new CountryFilter(filters);
   const selectedFilteredCountries = countryFilter.findCountries(
     data,
     searchQuery
-  );
-
-  const handleQueryUpdate = useCallback(
-    (
-      filter: FilterOptions<FilterTypeValues>[],
-      textSearch: string | undefined
-    ): void => {
-      setFilterQueries(filter);
-      setSearchQuery(textSearch ?? "");
-    },
-    []
   );
 
   return (
@@ -71,10 +53,7 @@ export default function Home() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Search
-          handleQueryUpdate={handleQueryUpdate}
-          numberOfCountries={selectedFilteredCountries.length}
-        />
+        <Search numberOfCountries={selectedFilteredCountries.length} />
         <div className="flex-grow overflow-hidden">
           <Countries
             countries={selectedFilteredCountries}
