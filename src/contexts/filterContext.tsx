@@ -43,7 +43,9 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   const removeFilter = useCallback(
     (filter: FilterOptions<FilterTypeValues>) => {
       setFilters((prev) =>
-        prev.filter((f) => f.queryValue !== filter.queryValue)
+        prev.filter(
+          (f) => f.queryValue !== filter.queryValue || f.type !== filter.type
+        )
       );
     },
     [setFilters]
