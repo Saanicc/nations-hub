@@ -100,7 +100,7 @@ const Search = ({
       <div className="w-full mb-0.5 flex gap-4">
         <Input
           type="text"
-          placeholder="Search for a country..."
+          placeholder="Search for a country or capital..."
           className="w-full p-4 border rounded-lg"
           value={searchQuery}
           onChange={(e) => handleSearchQuery(e.target.value)}
