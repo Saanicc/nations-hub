@@ -37,8 +37,9 @@ const Search = ({ numberOfCountries }: { numberOfCountries: number }) => {
       <div className="w-full mb-0.5 flex gap-4 relative">
         <div className="relative w-full flex">
           <Input
-            type="text"
-            placeholder="Search for a country or capital..."
+            type="search"
+            id="search"
+            placeholder="Search for country or capital..."
             className="w-full p-4 border rounded-lg"
             value={searchQuery}
             onChange={(e) => handleSearchQuery(e.target.value)}
