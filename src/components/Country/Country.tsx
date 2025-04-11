@@ -53,11 +53,7 @@ const CountryPage = ({ id }: { id: string }) => {
           <BreadcrumbSeparator>
             <Slash />
           </BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/country/${id}`}>
-              {country.name.common}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
+          <BreadcrumbItem>{country.name.common}</BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <Card className="h-full overflow-y-auto">
