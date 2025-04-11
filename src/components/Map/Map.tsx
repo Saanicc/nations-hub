@@ -23,6 +23,7 @@ type MapProps = {
   cca3: string;
   countryCoordinates: LatLngExpression;
   capitalCoordinates?: LatLngExpression;
+  capitalName?: string;
 };
 
 const GeoJSONCenter = ({
@@ -60,6 +61,7 @@ const GeoJSONCenter = ({
 
 export default function MyMap({
   countryName,
+  capitalName,
   cca3,
   countryCoordinates,
   capitalCoordinates,
@@ -87,11 +89,14 @@ export default function MyMap({
     return <p>Failed to load map data</p>;
   }
 
+  const capitalPopupText = capitalName
+    ? `The capital of ${countryName} is ${capitalName}`
+    : `The capital of ${countryName}`;
+
   return (
     <>
       <MapContainer
         center={[0, 0]}
-        scrollWheelZoom={false}
         style={{ height: "100%", width: "100%", borderRadius: "10px" }}
         worldCopyJump={false}
         maxBoundsViscosity={1}
@@ -99,12 +104,15 @@ export default function MyMap({
         minZoom={1}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
+
         {capitalCoordinates && (
           <Marker position={capitalCoordinates}>
-            <Popup>The capital of {countryName}.</Popup>
+            <Popup>
+              <p>{capitalPopupText}</p>
+            </Popup>
           </Marker>
         )}
         {isLoading && (

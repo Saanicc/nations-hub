@@ -24,6 +24,7 @@ const Geography = ({ country }: { country: Country }) => {
       <CardContent className="w-full h-full p-0">
         <Map
           countryName={country.name.common}
+          capitalName={country.capital?.[0] || "N/A"}
           cca3={country.cca3}
           countryCoordinates={country.latlng as LatLngExpression}
           capitalCoordinates={country.capitalInfo.latlng as LatLngExpression}
