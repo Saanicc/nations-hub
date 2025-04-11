@@ -34,14 +34,25 @@ const Search = ({ numberOfCountries }: { numberOfCountries: number }) => {
   return (
     <>
       <h1 className="text-3xl font-bold mb-6 mt-4">Countries</h1>
-      <div className="w-full mb-0.5 flex gap-4">
-        <Input
-          type="text"
-          placeholder="Search for a country or capital..."
-          className="w-full p-4 border rounded-lg"
-          value={searchQuery}
-          onChange={(e) => handleSearchQuery(e.target.value)}
-        />
+      <div className="w-full mb-0.5 flex gap-4 relative">
+        <div className="relative w-full flex">
+          <Input
+            type="text"
+            placeholder="Search for a country or capital..."
+            className="w-full p-4 border rounded-lg"
+            value={searchQuery}
+            onChange={(e) => handleSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <Button
+              variant="ghost"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-0 cursor-pointer"
+            >
+              <X size={16} />
+            </Button>
+          )}
+        </div>
         <Button
           className="bg-popover-foreground cursor-pointer"
           onClick={() => setShowFilters(!showFilters)}
