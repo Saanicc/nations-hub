@@ -41,10 +41,6 @@ const BasicInfo = ({ country }: { country: Country }) => {
             <TableCell className="font-medium">UN Member</TableCell>
             <TableCell>{country.unMember ? "Yes" : "No"}</TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">Status</TableCell>
-            <TableCell>{country.status}</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </div>

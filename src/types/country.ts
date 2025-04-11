@@ -63,7 +63,6 @@ export interface Country {
   cca3: string;
   cioc?: string;
   independent: boolean;
-  status: string;
   unMember: boolean;
   currencies?: {
     [key: string]: {
