@@ -11,19 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Slash } from "lucide-react";
 import Header from "../Header/Header";
 import BasicInfo from "./basic-info/BasicInfo";
 import CodesAndStatus from "./codes-status/CodesAndStatus";
 import InfoTabs from "./info-tabs";
 import { Spinner } from "@/components/ui/loading-spinner";
+import BreadCrumbs from "../BreadCrumbs/BreadCrumbs";
 
 const CountryPage = ({ id }: { id: string }) => {
   const { data: country, isLoading } = useQuery<Country>({
@@ -40,24 +33,14 @@ const CountryPage = ({ id }: { id: string }) => {
   return (
     <>
       <Header />
-      <Breadcrumb className="mb-4 mt-14">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <Slash />
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/countries">Countries</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <Slash />
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>{country.name.common}</BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <Card className="h-full overflow-y-auto">
+      <BreadCrumbs
+        links={[
+          { href: "/", label: "" },
+          { href: "/countries", label: "countries" },
+          { label: country.ccn3 },
+        ]}
+      />
+      <Card className="h-full overflow-y-auto mt-4">
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Spinner className="">Loading...</Spinner>

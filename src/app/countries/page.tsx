@@ -2,14 +2,6 @@
 
 import Countries from "@/components/Countries/Countries";
 import Header from "@/components/Header/Header";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Slash } from "lucide-react";
 import { Country } from "@/types/country";
 import { useQuery } from "@tanstack/react-query";
 import CountryFilter from "@/utils/country-filter";
@@ -39,20 +31,7 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Header />
-      <main className="flex flex-col flex-grow container mx-auto px-4 pt-2 overflow-hidden">
-        <Breadcrumb className="mt-14">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator>
-              <Slash />
-            </BreadcrumbSeparator>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/countries">Countries</BreadcrumbLink>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+      <main className="flex flex-col flex-grow container mx-auto px-4 mt-14 overflow-hidden">
         <Search numberOfCountries={selectedFilteredCountries.length} />
         <div className="flex-grow overflow-hidden">
           <Countries
