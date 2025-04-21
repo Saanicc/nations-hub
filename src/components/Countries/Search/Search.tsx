@@ -33,7 +33,7 @@ const Search = ({ numberOfCountries }: { numberOfCountries: number }) => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6 mt-4">Countries</h1>
+      <h1 className="text-3xl font-bold mb-3 mt-1">Countries</h1>
       <div className="w-full mb-0.5 flex gap-4 relative">
         <div className="relative w-full flex">
           <Input
