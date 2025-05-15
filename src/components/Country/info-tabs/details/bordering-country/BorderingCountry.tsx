@@ -20,7 +20,7 @@ const BorderingCountry = ({ countryCode }: { countryCode: string }) => {
       <Link
         href={`/countries/${borderCountry?.ccn3}`}
         replace
-        className="text-blue-500"
+        className="text-blue-500 hover:underline"
       >
         {borderCountry?.name.common}
       </Link>
