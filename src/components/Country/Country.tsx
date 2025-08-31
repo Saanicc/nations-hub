@@ -28,8 +28,6 @@ const CountryPage = ({ id }: { id: string }) => {
     },
   });
 
-  if (!country) return null;
-
   return (
     <>
       <Header />
@@ -37,11 +35,11 @@ const CountryPage = ({ id }: { id: string }) => {
         links={[
           { href: "/", label: "" },
           { href: "/countries", label: "countries" },
-          { label: country.ccn3 },
+          { label: id },
         ]}
       />
       <Card className="h-full overflow-y-auto mt-4">
-        {isLoading ? (
+        {!country || isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Spinner className="">Loading...</Spinner>
           </div>
