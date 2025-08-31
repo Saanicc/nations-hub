@@ -48,7 +48,7 @@ const Details = ({ country }: { country: Country }) => {
             {hasCurrencies ? (
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="hover:bg-black/10">
                     <TableHead>Code</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Symbol</TableHead>
@@ -59,7 +59,7 @@ const Details = ({ country }: { country: Country }) => {
                     <>
                       {Object.entries(country.currencies).map(
                         ([code, currency]) => (
-                          <TableRow key={code}>
+                          <TableRow key={code} className="hover:bg-black/10">
                             <TableCell>{code}</TableCell>
                             <TableCell>{currency.name}</TableCell>
                             <TableCell>{currency.symbol}</TableCell>
